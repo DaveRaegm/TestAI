@@ -1,1 +1,295 @@
-test
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Property Listings</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <style>
+  *{box-sizing:border-box}body{font-family:'Inter',sans-serif;background:#fff;color:#374151;margin:0;line-height:1.6}a{color:#2563eb;text-decoration:none}a:hover,a:focus{text-decoration:underline}h1{font-weight:700;font-size:3rem;margin-bottom:16px;color:#111827}h2{font-weight:600;font-size:1.5rem;margin-bottom:24px;color:#111827}
+  .container{max-width:1200px;margin:0 auto;padding:32px 24px 64px}header{padding-bottom:32px;border-bottom:1px solid #e5e7eb;margin-bottom:32px}
+  .filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 32px;
+  align-items: center;
+
+  background: #ffffff;       /* light background */
+  padding: 20px;             /* inner spacing */
+  border-radius: 12px;       /* rounded corners */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06); /* subtle shadow */
+}
+
+  .search-input{flex:1 1 300px;position:relative}
+  .search-input input[type="search"]{width:100%;padding:12px 40px 12px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:1rem;transition:border-color .3s ease}
+  .search-input input[type="search"]:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.3)}
+  .search-input .material-icons{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#9ca3af;pointer-events:none}
+  .filter-group{flex:0 0 auto;display:flex;flex-direction:column}
+  .filter-group label{font-weight:600;font-size:.9rem;margin-bottom:8px;color:#4b5563}
+  select,option{font-size:1rem;padding:8px 12px;border-radius:8px;border:1px solid #d1d5db;background:white;min-width:140px}
+  select:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.3)}
+  .listings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:32px}
+  .property-card{background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.06);display:flex;flex-direction:column;overflow:hidden;transition:box-shadow .3s ease}
+  .property-card:hover,.property-card:focus-within{box-shadow:0 12px 24px rgba(0,0,0,.12)}
+  .property-details{padding:16px 20px;display:flex;flex-direction:column;flex-grow:1}
+  .image-slider{position:relative;height:220px;overflow:hidden}
+  .image-slider img{width:100%;height:100%;object-fit:cover}
+  .slider-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.4);color:#fff;border:none;padding:6px 10px;cursor:pointer;z-index:2;font-size:18px}
+  .slider-btn.prev{left:10px}.slider-btn.next{right:10px}
+  .property-details .title{font-size:1.2rem;font-weight:700;margin-bottom:2px;color:#111827}
+  .property-details .date{font-size:0.8rem;color:#9ca3af;margin-bottom:6px}
+  .property-details .location{font-size:.9rem;color:#6b7280;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .property-details .price{font-size:1.2rem;font-weight:600;color:#1d4ed8;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+  .details{display:flex;flex-wrap:wrap;gap:10px;font-size:.88rem;margin-bottom:12px;color:#374151}
+  .detail-item{background:#f3f4f6;padding:6px 10px;border-radius:6px;display:flex;align-items:center;gap:6px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .tag{background:#e0f2fe;color:#0369a1;padding:4px 8px;font-size:.75rem;border-radius:4px}
+  .material-symbols-outlined{font-size:18px;vertical-align:middle;color:#6b7280}
+  @media(max-width:480px){.filters{flex-direction:column;gap:16px}.filter-group select{min-width:100%}}
+  </style>
+</head>
+<body>
+  <header class="container">
+    <h1>Property Listings</h1>
+    <p>Explore available flats and houses. Use search and filters to find your next home.</p>
+  </header>
+  <main class="container">
+    <section class="filters">
+      <div class="search-input">
+  <label for="filter-location">Search</label>
+        <input id="search-field" type="search" placeholder="Search by name or location" />
+        <span class="material-icons">search</span>
+      </div>
+      <div class="filter-group">
+        <label for="filter-location">Location</label>
+        <select id="filter-location">
+          <option value="">All</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-type">Type</label>
+        <select id="filter-type">
+          <option value="">All</option>
+          <option value="Flat">Flat</option>
+          <option value="House">House</option>
+          <option value="Studio">Studio</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-price">Max Price</label>
+        <select id="filter-price">
+          <option value="">No max</option>
+          <option value="50000">50,000</option>
+          <option value="100000">100,000</option>
+          <option value="150000">150,000</option>
+          <option value="200000">200,000</option>
+          <option value="300000">300,000</option>
+          <option value="500000">500,000</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="sort-by">Sort By</label>
+        <select id="sort-by">
+          <option value="">Default</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="date-desc">Newest First</option>
+          <option value="date-asc">Oldest First</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="listings-grid" id="listings-grid"></section>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById("search-field");
+      const locationFilter = document.getElementById("filter-location");
+      const typeFilter = document.getElementById("filter-type");
+      const priceFilter = document.getElementById("filter-price");
+      const sortBy = document.getElementById("sort-by");
+      const listingsGrid = document.getElementById("listings-grid");
+
+      const properties = [
+        {
+          "title": "2BHK Flat",
+          "date": "2025-08-10",
+          "size": "2BHK",
+          "bathrooms": 2,
+          "type": "Flat",
+          "project": "Bestech Twin Towers",
+          "location": "Sector 66, Mohali",
+          "carpet": "1000 sqft",
+          "superarea": "1500 sqft",
+          "price": "32,00,000",
+          "images": ["/l1/1.jpg", "/l1/2.jpg", "/l1/3.jpg"],
+          "tags": ["Smart Home", "Near Market"]
+        },
+        {
+          "title": "3BHK Independent House",
+          "date": "2025-07-28",
+          "size": "3BHK",
+          "bathrooms": 3,
+          "type": "House",
+          "project": "Shivalik City",
+          "location": "Sector 125, Mohali",
+          "carpet": "1400 sqft",
+          "superarea": "1800 sqft",
+          "price": "58,00,000",
+          "images": ["/l2/1.jpg", "/l2/2.jpg", "/l2/3.jpg"],
+          "tags": ["Smart Home", "Private Garden"]
+        },
+        {
+          "title": "Studio Apartment",
+          "date": "2025-08-01",
+          "size": "1RK",
+          "bathrooms": 1,
+          "type": "Studio",
+          "project": "Sunny Heights",
+          "location": "Sector 91, Mohali",
+          "carpet": "500 sqft",
+          "superarea": "700 sqft",
+          "price": "22,00,000",
+          "images": ["/l3/1.jpg", "/l3/2.jpg", "/l3/3.jpg"],
+          "tags": ["Furnished", "Great View"]
+        }
+      ];
+
+      function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        return date.toLocaleDateString('en-GB', options);
+      }
+
+      function populateLocationFilter() {
+        const uniqueLocations = [...new Set(properties.map(p => p.location))];
+        uniqueLocations.forEach(loc => {
+          const option = document.createElement("option");
+          option.value = loc;
+          option.textContent = loc;
+          locationFilter.appendChild(option);
+        });
+      }
+
+      function createImageSlider(images) {
+        const basePath = `${window.location.origin}${window.location.pathname.replace(/\/[^\/]*$/, '/')}`;
+        const slider = document.createElement("div");
+        slider.className = "image-slider";
+        const img = document.createElement("img");
+        img.src = basePath + 'images' + images[0];
+        slider.appendChild(img);
+        let currentIndex = 0;
+        const prevButton = document.createElement("button");
+        prevButton.className = "slider-btn prev";
+        prevButton.innerHTML = "&#10094;";
+        prevButton.addEventListener("click", () => {
+          currentIndex = (currentIndex - 1 + images.length) % images.length;
+          img.src = basePath + 'images' + images[currentIndex];
+        });
+        const nextButton = document.createElement("button");
+        nextButton.className = "slider-btn next";
+        nextButton.innerHTML = "&#10095;";
+        nextButton.addEventListener("click", () => {
+          currentIndex = (currentIndex + 1) % images.length;
+          img.src = basePath + 'images' + images[currentIndex];
+        });
+        slider.appendChild(prevButton);
+        slider.appendChild(nextButton);
+        return slider;
+      }
+
+      function displayProperties(props) {
+        listingsGrid.innerHTML = "";
+        if (props.length === 0) {
+          listingsGrid.innerHTML = "<p>No properties match the selected criteria.</p>";
+          return;
+        }
+        props.forEach((property) => {
+          const card = document.createElement("div");
+          card.className = "property-card";
+          const imageSlider = createImageSlider(property.images);
+          const details = document.createElement("div");
+          details.className = "property-details";
+          details.innerHTML = `
+            <div class="title">${property.title}</div>
+            <div class="date">${formatDate(property.date)}</div>
+            <div class="location">
+              <span class="material-symbols-outlined">location_on</span>
+              ${property.project}, ${property.location}
+            </div>
+            <div class="price">
+              <span class="material-symbols-outlined">currency_rupee</span>
+              ${property.price}
+            </div>
+            <div class="details">
+              <div class="detail-item"><span class="material-symbols-outlined">straighten</span> Carpet: ${property.carpet}</div>
+              <div class="detail-item"><span class="material-symbols-outlined">square_foot</span> Super: ${property.superarea}</div>
+              <div class="detail-item"><span class="material-symbols-outlined">apartment</span> ${property.type}</div>
+              <div class="detail-item"><span class="material-symbols-outlined">bed</span> ${property.size}</div>
+              <div class="detail-item"><span class="material-symbols-outlined">bathtub</span> ${property.bathrooms} Baths</div>
+            </div>
+          `;
+          const tagsDiv = document.createElement("div");
+          tagsDiv.className = "tags";
+          property.tags?.forEach(tag => {
+            const span = document.createElement("span");
+            span.className = "tag";
+            span.textContent = tag;
+            tagsDiv.appendChild(span);
+          });
+          details.appendChild(tagsDiv);
+
+          card.appendChild(imageSlider);
+          card.appendChild(details);
+          listingsGrid.appendChild(card);
+        });
+      }
+
+      function filterProperties() {
+        const query = searchInput.value.toLowerCase();
+        const location = locationFilter.value;
+        const type = typeFilter.value;
+        const maxPrice = parseInt(priceFilter.value, 10);
+        const sortValue = sortBy.value;
+
+        let filtered = properties.filter((prop) => {
+          const matchesQuery =
+            prop.title.toLowerCase().includes(query) ||
+            prop.location.toLowerCase().includes(query);
+          const matchesLocation = !location || prop.location === location;
+          const matchesType = !type || prop.type === type;
+          const matchesPrice = !maxPrice || parseInt(prop.price.replace(/,/g, '')) <= maxPrice;
+          return matchesQuery && matchesLocation && matchesType && matchesPrice;
+        });
+
+        if (sortValue) {
+          if (sortValue === "price-asc") {
+            filtered.sort((a, b) => parseInt(a.price.replace(/,/g, '')) - parseInt(b.price.replace(/,/g, '')));
+          } else if (sortValue === "price-desc") {
+            filtered.sort((a, b) => parseInt(b.price.replace(/,/g, '')) - parseInt(a.price.replace(/,/g, '')));
+          } else if (sortValue === "date-desc") {
+            filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+          } else if (sortValue === "date-asc") {
+            filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+          }
+        }
+
+        displayProperties(filtered);
+      }
+
+      populateLocationFilter();
+      displayProperties(properties);
+
+      searchInput.addEventListener("input", filterProperties);
+      locationFilter.addEventListener("change", filterProperties);
+      typeFilter.addEventListener("change", filterProperties);
+      priceFilter.addEventListener("change", filterProperties);
+      sortBy.addEventListener("change", filterProperties);
+    });
+  </script>
+</body>
+</html>
